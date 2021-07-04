@@ -24,6 +24,5 @@ public class SpringMemberSaveControllerV1 {
         ModelAndView mv = new ModelAndView("save-result");
         mv.addObject("member", member);
         return mv;
-        //fda
     }
 }
