@@ -45,7 +45,7 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 - 성능도 일반 System.out보다 좋다. (내부 버퍼링, 멀티 쓰레드 등등) 그래서 실무에서는 꼭 로그를
 사용해야 한다.<br>
 
-#요청매핑
+# 요청매핑
 @RestController<br>
 - @Controller 는 반환 값이 String 이면 뷰 이름으로 인식된다. 그래서 뷰를 찾고 뷰가 랜더링 된다.
 @RestController 는 반환 값으로 뷰를 찾는 것이 아니라, HTTP 메시지 바디에 바로 입력한다. 
