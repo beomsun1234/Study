@@ -48,7 +48,8 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 <h2>PathVariable(경로변수)사용</h2>
 
 -  변수명이 같으면 생략 가능 @PathVariable("userId") String userId -> @PathVariable userId <br>
- - 사용법 <br>
+ - 사용법
+ 
  
  
     @GetMapping("/mapping/{userId}/orders/{oreders}") //다중
@@ -57,6 +58,8 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
          log.info("mappingPath usrrId={}",userId);
          return userId;
      }
+     
+     
  
  - 최근 HTTP API는 다음과 같이 리소스 경로에 식별자를 넣는 스타일을 선호한다.<br>
  /mapping/userA <br>
@@ -75,12 +78,14 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
          - consumes = MediaType.TEXT_PLAIN_VALUE<br>
        
        
-     @PostMapping(value = "/mapping-consume", consumes = "application/json")
-     public String mappingConsumes() {
-         log.info("mappingConsumes");
-         return "ok";
-     }
- 
+       
+      @PostMapping(value = "/mapping-consume", consumes = "application/json")
+      public String mappingConsumes() {
+          log.info("mappingConsumes");
+          return "ok";
+      }
+      
+
 
  - Accept 헤더 기반 Media Type
    * produces = "text/html"
