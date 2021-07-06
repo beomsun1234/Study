@@ -48,7 +48,7 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 <h2>PathVariable(경로변수)사용</h2>
 
 -  변수명이 같으면 생략 가능 @PathVariable("userId") String userId -> @PathVariable userId <br>
- - 사용법 
+ - 사용법 <br>
  
  
     @GetMapping("/mapping/{userId}/orders/{oreders}") //다중
