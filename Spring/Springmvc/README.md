@@ -45,8 +45,109 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 호출된다.
 모두 허용 GET, HEAD, POST, PUT, PATCH, DELETE
 
+<h2>PathVariable(경로변수)사용</h2>
+
+-  변수명이 같으면 생략 가능 @PathVariable("userId") String userId -> @PathVariable userId <br>
+ - 사용법 
+ 
+ 
+    @GetMapping("/mapping/{userId}/orders/{oreders}") //다중
+     public String mappingPath(@PathVariable String userId,
+                               @PathVariable Long oreders){
+         log.info("mappingPath usrrId={}",userId);
+         return userId;
+     }
+ 
+ - 최근 HTTP API는 다음과 같이 리소스 경로에 식별자를 넣는 스타일을 선호한다.<br>
+ /mapping/userA <br>
+ /users/1 <br>
+ 
+* Content-Type 헤더 기반 추가 매핑 Media Type<br>
+  - consumes="application/json"
+   * consumes="!application/json"
+   * consumes="application/*"
+   * consumes="*\/*"
+   * MediaType.APPLICATION_JSON_VALUE
+   * consumes = 소비하는 입장 요청에 컨텐츠타입을 소비하므로 consumes라 불린다
+   - 예시<br>
+         - consumes = "text/plain" <br>
+         - consumes = {"text/plain", "application/*"}<br>
+         - consumes = MediaType.TEXT_PLAIN_VALUE<br>
+       
+       
+     @PostMapping(value = "/mapping-consume", consumes = "application/json")
+     public String mappingConsumes() {
+         log.info("mappingConsumes");
+         return "ok";
+     }
+ 
+
+ - Accept 헤더 기반 Media Type
+   * produces = "text/html"
+   * produces = "!text/html"
+   * produces = "text/*"
+   * produces = "*\/*"
+   - produces = "text/plain"
+   - produces = {"text/plain", "application/*"}
+   - produces = MediaType.TEXT_PLAIN_VALUE
+   - produces = "text/plain;charset=UTF-8
+
+ 
+       @PostMapping(value = "/mapping-produce", produces = "text/html")
+            public String mappingProduces() {
+            log.info("mappingProduces");
+             return "ok";}
+             
+- @RequestMapping("/mapping/users") 클래스 레벨에 매핑 정보를 두면 메서드 레벨에서 해당 정보를 조합해서 사용한다.
+  -  회원 목록 조회: GET /mapping/users
+  - 회원 등록: POST /mapping/users
+  - 회원 조회: GET /mapping/users/id1
+  - 회원 수정: PATCH /mapping/users/id1
+  - 회원 삭제: DELETE /mapping/users/id1
 
 
 
+<h3>HTTP 요청이 보내는 데이터들을 스프링 MVC로 어떻게 조회?</h3>
 
+<p>HTTP 요청 - 기본, 헤더 조회</p>
+
+        @RequestMapping("/headers")
+            public String headers(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  HttpMethod httpMethod,
+                                  Locale locale,
+                                  @RequestHeader MultiValueMap<String, String>
+                                  headerMap,
+                                  @RequestHeader("host") String host,
+                                  @CookieValue(value = "myCookie", required = false)
+                                  String cookie)
+                                  
+                                  
+ - HttpMethod : HTTP 메서드를 조회한다. org.springframework.http.HttpMethod
+ - Locale : Locale 정보를 조회한다.
+ - @RequestHeader MultiValueMap<String, String> headerMap 
+   - 모든 HTTP 헤더를 MultiValueMap 형식으로 조회한다.
+ - @RequestHeader("host") String host
+   - 특정 HTTP 헤더를 조회한다.
+   - 속성
+   - 필수 값 여부: required
+   - 기본 값 속성: defaultValue
+- @CookieValue(value = "myCookie", required = false) String cookie
+   - 특정 쿠키를 조회한다.
+   - 속성
+      - 필수 값 여부: required
+      - 기본 값: defaultValue
+      
+      
+ <p>MultiValueMap</p>
+ MAP과 유사한데, 하나의 키에 여러 값을 받을 수 있다.
+ HTTP header, HTTP 쿼리 파라미터와 같이 하나의 키에 여러 값을 받을 때 사용한다.<br>
+ keyA=value1&keyA=value2
+ 
+         MultiValueMap<String, String> map = new LinkedMultiValueMap();
+         map.add("keyA", "value1");
+         map.add("keyA", "value2");
+         //[value1,value2]
+         List<String> values = map.get("keyA");
+                    
 
