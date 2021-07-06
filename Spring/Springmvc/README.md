@@ -48,15 +48,16 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 <h2>PathVariable(경로변수)사용</h2>
 
 -  변수명이 같으면 생략 가능 @PathVariable("userId") String userId -> @PathVariable userId <br>
- - 사용법 
+-  <p>사용법<p/>
  
  
-    @GetMapping("/mapping/{userId}/orders/{oreders}") //다중
-     public String mappingPath(@PathVariable String userId,
-                               @PathVariable Long oreders){
-         log.info("mappingPath usrrId={}",userId);
-         return userId;
-     }
+        @GetMapping("/mapping/{userId}/orders/{oreders}") //다중
+         public String mappingPath(@PathVariable String userId,
+                                   @PathVariable Long oreders){
+             log.info("mappingPath usrrId={}",userId);
+             return userId;
+         }
+ 
  
  - 최근 HTTP API는 다음과 같이 리소스 경로에 식별자를 넣는 스타일을 선호한다.<br>
  /mapping/userA <br>
