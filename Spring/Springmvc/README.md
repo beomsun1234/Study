@@ -75,12 +75,14 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
          - consumes = {"text/plain", "application/*"}<br>
          - consumes = MediaType.TEXT_PLAIN_VALUE<br>
        
-   <p>- 사용법/</p>
-       @PostMapping(value = "/mapping-consume", consumes = "application/json")
-       public String mappingConsumes() {
-           log.info("mappingConsumes");
-           return "ok";
-       }
+   - <p>사용법/</p>
+
+
+         @PostMapping(value = "/mapping-consume", consumes = "application/json")
+         public String mappingConsumes() {
+             log.info("mappingConsumes");
+             return "ok";
+         }
 
 
  - Accept 헤더 기반 Media Type
@@ -94,11 +96,12 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
    - produces = "text/plain;charset=UTF-8
 
  
-       @PostMapping(value = "/mapping-produce", produces = "text/html")
-            public String mappingProduces() {
-            log.info("mappingProduces");
-             return "ok";}
-             
+         @PostMapping(value = "/mapping-produce", produces = "text/html")
+              public String mappingProduces() {
+              log.info("mappingProduces");
+               return "ok";}
+               
+
 - @RequestMapping("/mapping/users") 클래스 레벨에 매핑 정보를 두면 메서드 레벨에서 해당 정보를 조합해서 사용한다.
   -  회원 목록 조회: GET /mapping/users
   - 회원 등록: POST /mapping/users
