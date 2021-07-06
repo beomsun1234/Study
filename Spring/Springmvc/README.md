@@ -51,12 +51,13 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
  - 사용법 
  
  
-    @GetMapping("/mapping/{userId}/orders/{oreders}") //다중
-     public String mappingPath(@PathVariable String userId,
-                               @PathVariable Long oreders){
-         log.info("mappingPath usrrId={}",userId);
-         return userId;
-     }
+        @GetMapping("/mapping/{userId}/orders/{oreders}") //다중
+         public String mappingPath(@PathVariable String userId,
+                                   @PathVariable Long oreders){
+             log.info("mappingPath usrrId={}",userId);
+             return userId;
+         }
+ 
  
  - 최근 HTTP API는 다음과 같이 리소스 경로에 식별자를 넣는 스타일을 선호한다.<br>
  /mapping/userA <br>
@@ -75,11 +76,11 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
          - consumes = MediaType.TEXT_PLAIN_VALUE<br>
        
        
-     @PostMapping(value = "/mapping-consume", consumes = "application/json")
-     public String mappingConsumes() {
-         log.info("mappingConsumes");
-         return "ok";
-     }
+             @PostMapping(value = "/mapping-consume", consumes = "application/json")
+             public String mappingConsumes() {
+                 log.info("mappingConsumes");
+                 return "ok";
+             }
  
 
  - Accept 헤더 기반 Media Type
