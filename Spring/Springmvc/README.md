@@ -75,13 +75,13 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
          - consumes = {"text/plain", "application/*"}<br>
          - consumes = MediaType.TEXT_PLAIN_VALUE<br>
        
-       
-     @PostMapping(value = "/mapping-consume", consumes = "application/json")
-     public String mappingConsumes() {
-         log.info("mappingConsumes");
-         return "ok";
-     }
- 
+   <p>- 사용법/</p>
+       @PostMapping(value = "/mapping-consume", consumes = "application/json")
+       public String mappingConsumes() {
+           log.info("mappingConsumes");
+           return "ok";
+       }
+
 
  - Accept 헤더 기반 Media Type
    * produces = "text/html"
