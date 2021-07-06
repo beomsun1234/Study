@@ -1,3 +1,137 @@
+# 스프링 MVC 시작
+@Controller
+ - 스프링이 자동으로 스프링 빈으로 등록한다. (내부에 @Component 애노테이션이 있어서 컴포넌트
+스캔의 대상이 됨)
+ - 스프링 MVC에서 애노테이션 기반 컨트롤러로 인식한다. <br>
+ 
+@RequestMapping
+ - 요청 정보를 매핑한다. 해당 URL이 호출되면 이 메서드가 호출된다. 애노테이션을 기반으로 동작하기 때문에, 메서드의 이름은 임의로 지으면 된다.<br>
+
+ModelAndView : 모델과 뷰 정보를 담아서 반환하면 된다.
+
+            @Controller
+            public class SpringMemberFormControllerV1 {
+                @RequestMapping("/springmvc/v1/members/new-form")
+                public ModelAndView process() {
+                    return new ModelAndView("new-form");
+                  }
+            }
+            
+            
+            memberRepository.save(member);
+             ModelAndView mv = new ModelAndView("save-result");
+             mv.addObject("member", member);
+             return mv;
+  - mv.addObject("member", member)
+    - 스프링이 제공하는 ModelAndView 를 통해 Model 데이터를 추가할 때는 addObject() 를 사용하면
+    된다. 
+  
+    - 이 데이터는 이후 뷰를 렌더링 할 때 사용된다.
+    
+ 
+#스프링 MVC - 컨트롤러 통합
+/**
+ * 클래스 단위 -> 메서드 단위
+ * @RequestMapping 클래스 레벨과 메서드 레벨 조합
+ */
+ 
+        @Controller
+        @RequestMapping("/springmvc/v2/members")
+        public class SpringMemberControllerV2 { private MemberRepository memberRepository = MemberRepository.getInstance();
+        
+                 @RequestMapping("/new-form")
+                 public ModelAndView newForm() {
+                 
+                 return new ModelAndView("new-form");
+                 
+                 }
+                 
+                 @RequestMapping("/save")
+                 public ModelAndView save(HttpServletRequest request, HttpServletResponse response) {
+                         
+                         String username = request.getParameter("username");
+                         int age = Integer.parseInt(request.getParameter("age"));
+                         Member member = new Member(username, age);
+                         memberRepository.save(member);
+                         ModelAndView mav = new ModelAndView("save-result");
+                         mav.addObject("member", member);
+                         return mav;
+                 }
+                 
+                 @RequestMapping
+                 public ModelAndView members() {
+                         
+                         List<Member> members = memberRepository.findAll();
+                         ModelAndView mav = new ModelAndView("members");
+                         mav.addObject("members", members);
+                         return mav;
+                 }
+        }
+
+
+- @RequestMapping("/springmvc/v2/members/new-form")
+- @RequestMapping("/springmvc/v2/members")
+- @RequestMapping("/springmvc/v2/members/save")<br>
+물론 이렇게 사용해도 되지만, 컨트롤러를 통합한 예제 코드를 보면 중복을 어떻게 제거했는지 확인할 수 있다.<br>
+클래스 레벨에 다음과 같이 @RequestMapping 을 두면 메서드 레벨과 조합이 된다.
+    
+            @Controller
+            @RequestMapping("/springmvc/v2/members")
+            public class SpringMemberControllerV2 {}
+
+# 스프링 MVC - 실용적인 방법 
+
+        /**
+         * v3
+         * Model 도입
+         * ViewName 직접 반환
+         * @RequestParam 사용
+         * @RequestMapping -> @GetMapping, @PostMapping
+         */
+        @Controller
+        @RequestMapping("/springmvc/v3/members")
+        public class SpringMemberControllerV3 {
+        
+             private MemberRepository memberRepository = MemberRepository.getInstance();
+             
+             @GetMapping("/new-form")
+             public String newForm() {
+             
+                    return "new-form";
+             }
+             @PostMapping("/save")
+             public String save( @RequestParam("username") String username,
+                                 @RequestParam("age") int age,
+                                 Model model){
+                                 
+                    Member member = new Member(username, age);
+                    memberRepository.save(member);
+                    model.addAttribute("member", member);
+                    return "save-result"; 
+             }
+             
+         @GetMapping
+             public String members(Model model) {
+             
+                    List<Member> members = memberRepository.findAll();
+                    model.addAttribute("members", members);
+                    return "members";
+             }
+        }
+        
+        
+- Model 파라미터
+  - save() , members() 를 보면 Model을 파라미터로 받는 것을 확인할 수 있다. 스프링 MVC도 이런 편의기능을 제공한다.
+  
+- ViewName 직접 반환
+  - 뷰의 논리 이름을 반환할 수 있다.
+  
+- @RequestParam 사용
+  - 스프링은 HTTP 요청 파라미터를 @RequestParam 으로 받을 수 있다.
+  - @RequestParam("username") 은 request.getParameter("username") 와 거의 같은 코드라 생각하면 된다.
+- 물론 GET 쿼리 파라미터, POST Form 방식을 모두 지원한다.
+
+- @RequestMapping -> @GetMapping, @PostMapping
 # 로깅 (logger)
 <h2>로그 선언</h2>
 <p>private Logger log = LoggerFactory.getLogger(getClass());</p>
@@ -31,7 +165,7 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 사용해야 한다.<br>
 
 #요청매핑
-@RestController<br>
+<h3> @RestController</h3><br>
 - @Controller 는 반환 값이 String 이면 뷰 이름으로 인식된다. 그래서 뷰를 찾고 뷰가 랜더링 된다.
 @RestController 는 반환 값으로 뷰를 찾는 것이 아니라, HTTP 메시지 바디에 바로 입력한다. 
 따라서 실행 결과로 ok 메세지를 받을 수 있다.<br>
@@ -40,7 +174,12 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 대부분의 속성을 배열[] 로 제공하므로 다중 설정이 가능하다. {"/hello-basic", "/hello-go"}
 - 다음 두가지 요청은 다른 URL이지만, 스프링은 다음 URL 요청들을 같은 요청으로 매핑, (둘다 허용 /hello-basic , /hello-basic/) <br>
 
-- HTTP 메서드(GET, HEAD, POST, PUT, PATCH, DELETE)<br>
+<h3>@RequestMapping</h3>
+- 가장 우선순위가 높은 핸들러 매핑과 핸들러 어댑터는 RequestMappingHandlerMapping , RequestMappingHandlerAdapter 이다. <br>
+- @RequestMapping 의 앞글자를 따서 만든 이름인데, 이것이 바로 지금 스프링에서 주로 사용하는 애노테이션 기반의 컨트롤러를 지원하는 매핑과 어댑터이다. 실무에서는 99.9% 이 방식의 컨트롤러를
+사용
+
+<h3>HTTP 메서드(GET, HEAD, POST, PUT, PATCH, DELETE)<br></h3>
 -> @RequestMapping 에 method 속성으로 HTTP 메서드를 지정하지 않으면 HTTP 메서드와 무관하게
 호출된다.
 모두 허용 GET, HEAD, POST, PUT, PATCH, DELETE
@@ -75,13 +214,15 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
          - consumes = {"text/plain", "application/*"}<br>
          - consumes = MediaType.TEXT_PLAIN_VALUE<br>
        
-       
-     @PostMapping(value = "/mapping-consume", consumes = "application/json")
-     public String mappingConsumes() {
-         log.info("mappingConsumes");
-         return "ok";
-     }
- 
+   - <p>사용법/</p>
+
+
+         @PostMapping(value = "/mapping-consume", consumes = "application/json")
+         public String mappingConsumes() {
+             log.info("mappingConsumes");
+             return "ok";
+         }
+
 
  - Accept 헤더 기반 Media Type
    * produces = "text/html"
@@ -94,11 +235,12 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
    - produces = "text/plain;charset=UTF-8
 
  
-       @PostMapping(value = "/mapping-produce", produces = "text/html")
-            public String mappingProduces() {
-            log.info("mappingProduces");
-             return "ok";}
-             
+         @PostMapping(value = "/mapping-produce", produces = "text/html")
+              public String mappingProduces() {
+              log.info("mappingProduces");
+               return "ok";}
+               
+
 - @RequestMapping("/mapping/users") 클래스 레벨에 매핑 정보를 두면 메서드 레벨에서 해당 정보를 조합해서 사용한다.
   -  회원 목록 조회: GET /mapping/users
   - 회원 등록: POST /mapping/users
