@@ -342,7 +342,7 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 - 바인딩 오류
      - age=abc 처럼 숫자가 들어가야 할 곳에 문자를 넣으면 BindException 이 발생한다
 
-<Strong>@RequestBody</String> 객체 파라미터<br>
+<Strong>@RequestBody</Strong> 객체 파라미터<br>
 
         @PostMapping("/request-body-json-v3")
         public String requestBodyJsonV3(@RequestBody HelloData data) {
@@ -357,7 +357,7 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 - @RequestBody는 생략 불가능<br>
 
 <br>
-<b>@RestController</b>
+<strong>@RestController</strong>
         
         
         @RestController
@@ -375,7 +375,7 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 
 
 
-<b>@RestController</b>
+<strong>@RestController<strong>
 
 
 - @Controller 대신에 @RestController 애노테이션을 사용하면, 해당 컨트롤러에 모두 @ResponseBody 가 적용되는 효과가 있다. 따라서 뷰 템플릿을 사용하는 것이 아니라, HTTP 메시지 바디에
