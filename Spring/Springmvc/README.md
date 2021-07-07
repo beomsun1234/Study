@@ -34,7 +34,8 @@ ModelAndView : 모델과 뷰 정보를 담아서 반환하면 된다.
  * 클래스 단위 -> 메서드 단위
  * @RequestMapping 클래스 레벨과 메서드 레벨 조합
  */
- 
+        
+        
         @Controller
         @RequestMapping("/springmvc/v2/members")
         public class SpringMemberControllerV2 { private MemberRepository memberRepository = MemberRepository.getInstance();
@@ -67,6 +68,7 @@ ModelAndView : 모델과 뷰 정보를 담아서 반환하면 된다.
                          return mav;
                  }
         }
+        
 
 
 - @RequestMapping("/springmvc/v2/members/new-form")
@@ -132,6 +134,7 @@ ModelAndView : 모델과 뷰 정보를 담아서 반환하면 된다.
 - 물론 GET 쿼리 파라미터, POST Form 방식을 모두 지원한다.
 
 - @RequestMapping -> @GetMapping, @PostMapping
+
 # 로깅 (logger)
 <h2>로그 선언</h2>
 <p>private Logger log = LoggerFactory.getLogger(getClass());</p>
@@ -282,9 +285,10 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
       - 기본 값: defaultValue
       
       
- <p>MultiValueMap</p>
+ <p><strong>MultiValueMap</strong></p>
  MAP과 유사한데, 하나의 키에 여러 값을 받을 수 있다.
  HTTP header, HTTP 쿼리 파라미터와 같이 하나의 키에 여러 값을 받을 때 사용한다.<br>
+ 
  keyA=value1&keyA=value2
  
          MultiValueMap<String, String> map = new LinkedMultiValueMap();
@@ -292,5 +296,87 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
          map.add("keyA", "value2");
          //[value1,value2]
          List<String> values = map.get("keyA");
-                    
+         
+         
+#HTTP 요청 파라미터 - @ModelAttribute
+ 실제 개발을 하면 요청 파라미터를 받아서 필요한 객체를 만들고 그 객체에 값을 넣어주어야 한다. 보통
+ 다음과 같이 코드를 작성한다
+ 
+ 
+             @RequestParam String username;
+             @RequestParam int age;
+             
+             HelloData data = new HelloData();
+             data.setUsername(username);
+             data.setAge(age);
+ 
 
+ 스프링은 이 과정을 완전히 자동화해주는 <b>@ModelAttribute</b> 기능을 제공한다. 
+ 
+            @ResponseBody
+            @RequestMapping("/model-attribute-v1")
+            public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+                 log.info("username={}, age={}", helloData.getUsername(),
+                 helloData.getAge());
+                 return "ok";
+            }
+            
+            마치 마법처럼 HelloData 객체가 생성되고, 요청 파라미터의 값도 모두 들어가 있다.
+            
+- 스프링MVC는 @ModelAttribute 가 있으면 다음을 실행한다.
+   -  HelloData 객체를 생성한다.
+   - 요청 파라미터의 이름으로 HelloData 객체의 프로퍼티를 찾는다. 그리고 해당 프로퍼티의 setter를
+   - 호출해서 파라미터의 값을 입력(바인딩) 한다.
+   - ex) 파라미터 이름이 username 이면 setUsername() 메서드를 찾아서 호출하면서 값을 입력한다              
+- 프로퍼티
+- 객체에 getUsername() , setUsername() 메서드가 있으면, 이 객체는 username 이라는 프로퍼티를 가지고 있다.
+- username 프로퍼티의 값을 변경하면 setUsername() 이 호출되고, 조회하면 getUsername() 이
+호출된다.
+
+            class HelloData {
+             getUsername();
+             setUsername();
+            }
+            
+            
+- 바인딩 오류
+     - age=abc 처럼 숫자가 들어가야 할 곳에 문자를 넣으면 BindException 이 발생한다
+
+<Strong>@RequestBody</String> 객체 파라미터<br>
+
+        @PostMapping("/request-body-json-v3")
+        public String requestBodyJsonV3(@RequestBody HelloData data) {
+                log.info("username={}, age={}", data.getUsername(), data.getAge());
+                return "ok";
+           }
+
+- @RequestBody HelloData data
+- @RequestBody 에 직접 만든 객체를 지정할 수 있다.
+- HttpEntity , @RequestBody 를 사용하면 HTTP 메시지 컨버터가 HTTP 메시지 바디의 내용을 우리가 원하는 문자나 객체 등으로 변환해준다.
+- HTTP 메시지 컨버터는 문자 뿐만 아니라 JSON도 객체로 변환해해줌
+- @RequestBody는 생략 불가능<br>
+
+<br>
+     <b>@RestController</b>
+        
+        @RestController
+        public class ResponseBodyController {
+        
+            @ResponseStatus(HttpStatus.OK)     
+            @GetMapping("/response-body-json-v2")
+            public HelloData responseBodyJsonV2() {
+                HelloData helloData = new HelloData();
+                 helloData.setUsername("userA");
+                 helloData.setAge(20);
+                 return helloData;
+                 
+         }
+
+<b>@RestController</b>
+- @Controller 대신에 @RestController 애노테이션을 사용하면, 해당 컨트롤러에 모두 @ResponseBody 가 적용되는 효과가 있다. 따라서 뷰 템플릿을 사용하는 것이 아니라, HTTP 메시지 바디에
+직접 데이터를 입력한다. 
+- 이름 그대로 Rest API(HTTP API)를 만들 때 사용하는 컨트롤러이다.
+- 참고로 @ResponseBody 는 클래스 레벨에 두면 전체에 메서드에 적용되는데, @RestController 에노테이션 안에 @ResponseBody 가 적용되어 있다.
+
+
+        
