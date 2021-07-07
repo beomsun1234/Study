@@ -375,8 +375,7 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 
 
 
-<strong>@RestController<strong>
-
+<strong>@RestController</strong>
 
 - @Controller 대신에 @RestController 애노테이션을 사용하면, 해당 컨트롤러에 모두 @ResponseBody 가 적용되는 효과가 있다. 따라서 뷰 템플릿을 사용하는 것이 아니라, HTTP 메시지 바디에
 직접 데이터를 입력한다. 
