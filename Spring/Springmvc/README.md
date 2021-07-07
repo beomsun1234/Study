@@ -357,7 +357,8 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
 - @RequestBody는 생략 불가능<br>
 
 <br>
-     <b>@RestController</b>
+<b>@RestController</b>
+        
         
         @RestController
         public class ResponseBodyController {
@@ -372,7 +373,11 @@ LEVEL: TRACE > DEBUG > INFO > WARN > ERRO<br>
                  
          }
 
+
+
 <b>@RestController</b>
+
+
 - @Controller 대신에 @RestController 애노테이션을 사용하면, 해당 컨트롤러에 모두 @ResponseBody 가 적용되는 효과가 있다. 따라서 뷰 템플릿을 사용하는 것이 아니라, HTTP 메시지 바디에
 직접 데이터를 입력한다. 
 - 이름 그대로 Rest API(HTTP API)를 만들 때 사용하는 컨트롤러이다.
