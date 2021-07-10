@@ -221,3 +221,62 @@ BasicItemController에 추가
 예) @ModelAttribute 클래스명 모델에 자동 추가되는 이름
   -  Item item
   -  HelloWorld helloWorld
+  
+  
+  
+상품 수정은 상품 등록과 전체 프로세스가 유사하다.<br>
+  
+- GET /items/{itemId}/edit : 상품 수정 폼
+- POST /items/{itemId}/edit : 상품 수정 처리
+
+
+<h3> 리다이렉트</h3>
+상품 수정은 마지막에 뷰 템플릿을 호출하는 대신에 상품 상세 화면으로 이동하도록 리다이렉트를
+호출한다.
+
+ - 스프링은 redirect:/... 으로 편리하게 리다이렉트를 지원한다.
+ 
+             redirect:/basic/items/{itemId}"
+             
+컨트롤러에 매핑된 @PathVariable 의 값은 redirect 에도 사용 할 수 있다.
+
+    redirect:/basic/items/{itemId}  {itemId} 는 @PathVariable Long itemId 의 값을
+        그대로 사용한다.
+        
+        
+<h3>RedirectAttributes</h3>
+
+상품을 저장하고 상품 상세 화면으로 리다이렉트 한 것 까지는 좋았다. 그런데 고객 입장에서 저장이 잘 된
+것인지 안 된 것인지 확신이 들지 않는다. 그래서 저장이 잘 되었으면 상품 상세 화면에
+"저장되었습니다"라는 메시지를 보여달라는 요구사항이 왔다.
+
+
+        @PostMapping("/add")
+        public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
+         Item savedItem = itemRepository.save(item);
+         redirectAttributes.addAttribute("itemId", savedItem.getId());
+         redirectAttributes.addAttribute("status", true);
+         return "redirect:/basic/items/{itemId}";
+        }
+        
+        실행해보면 다음과 같은 리다이렉트 결과가 나온다.
+        http://localhost:8080/basic/items/3?status=true
+        
+        
+- RedirectAttributes
+  - RedirectAttributes 를 사용하면 URL 인코딩도 해주고 pathVarible , 쿼리 파라미터까지 처리해준다.redirect:/basic/items/{itemId}
+  - pathVariable 바인딩: {itemId} , 나머지는 쿼리 파라미터로 처리: ?status=true<br>
+  
+  
+  
+
+  - th:if : 해당 조건이 참이면 실행
+  - ${param.status} : 타임리프에서 쿼리 파라미터를 편리하게 조회하는 기능
+   
+        <h2 th:if="${param.status}" th:text="'저장 완료!'"></h2>
+
+      
+  원래는 컨트롤러에서 모델에 직접 담고 값을 꺼내야 한다. 그런데 쿼리 파라미터는 자주 사용해서
+  타임리프에서 직접 지원한다. 뷰 템플릿에 메시지를 추가하고 실행해보면 "저장 완료!" 라는 메시지가 나오는 것을 확인할 수 있다
+  
+            
