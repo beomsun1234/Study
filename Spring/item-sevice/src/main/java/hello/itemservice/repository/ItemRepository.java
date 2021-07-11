@@ -9,8 +9,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
 
 
-    //em.persist(item);
-    //return em.find(Item.class,id);
 
     //private static final Map<Long, Item> store = new ConcurrentHashMap<>(); //static
 

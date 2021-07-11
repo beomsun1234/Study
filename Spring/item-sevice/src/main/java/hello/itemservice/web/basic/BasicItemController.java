@@ -29,7 +29,7 @@ public class BasicItemController {
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
-    private ItemService itemService;
+    private ItemService itemService; //jpa등록 후
 
 
     @GetMapping
@@ -42,7 +42,7 @@ public class BasicItemController {
     @GetMapping("/{itemId}")
     public String item(@PathVariable("itemId") long itemID, Model model){
         itemRepository.findById(itemID);
-        Optional<Item> item = itemRepository.findById(itemID);
+        Optional<Item> item = itemRepository.findById(itemID); //jpa 등록후 옵셔널로 변경
         log.info("item={}",item);
         model.addAttribute("item", item);
         return "basic/item";
@@ -77,27 +77,32 @@ public class BasicItemController {
 
     @GetMapping("/{itemId}/edit")
     public String openEditForm(@PathVariable("itemId") long itemId, Model model){
-        Optional<Item> item = itemRepository.findById(itemId);
+        Optional<Item> item = itemRepository.findById(itemId); //jpa 사용후 옵셔널로 변경 그전에는 Item객체
         model.addAttribute("item",item);
         return "basic/edit";
     }
 
-    //@PostMapping("/{itemId}/edit") //등록할때는 post
+
+    //@PostMapping("/{itemId}/edit")  //jpa 미사용 코드
+    public String editItemV0(@PathVariable("itemId") long itemId, @ModelAttribute Item item){
+        //itemRepository.update(itemId, item);
+        return "redirect:/basic/items/{itemId}"; //url은 항상 인코딩해서 넘거여함
+    }
+
+    //@PostMapping("/{itemId}/edit") //jpa 사용 코드
     public String editItemV1(@PathVariable("itemId") long itemId, @ModelAttribute Item item){
         itemService.update(itemId, item);
         return "redirect:/basic/items/{itemId}"; //url은 항상 인코딩해서 넘거여함
     }
 
+
     @PostMapping("/{itemId}/edit") //등록할때는 post
     public String editItemV2(RedirectAttributes redirectAttributes, @ModelAttribute Item item){
         redirectAttributes.addAttribute(item.getId());
+        redirectAttributes.addAttribute("status", true); //잘갔으면 트루
         itemService.update(item.getId(), item);
         return "redirect:/basic/items/{itemId}"; //url은 항상 인코딩해서 넘거여함
     }
-
-
-
-
 
 
 }
