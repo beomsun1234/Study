@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-@Table(name="user")
 public class User {
 
     @Id
@@ -22,9 +21,7 @@ public class User {
     private Boolean enabled;
 
 
-    @OneToMany
-    @JoinColumn(name="id")
-    private List<Item>items = new ArrayList<>();
+
 
 
 

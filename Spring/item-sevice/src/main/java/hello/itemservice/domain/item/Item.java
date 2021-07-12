@@ -16,7 +16,6 @@ import java.util.List;
 @Data
 @Getter @Setter
 @Entity
-@Table(name = "item")
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +33,6 @@ public class Item {
         this.quantity = quantity;
     }
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+
 
 }
