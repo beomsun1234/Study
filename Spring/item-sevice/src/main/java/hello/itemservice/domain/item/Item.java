@@ -1,18 +1,22 @@
 package hello.itemservice.domain.item;
 
 
+import hello.itemservice.domain.User;
 import lombok.Data;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //위험함,getter setter 사용  dto일경우 data써도 괜찮음 하지만 확인은해야함
 
-
 @Data
+@Getter @Setter
 @Entity
+@Table(name = "item")
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +27,15 @@ public class Item {
 
     public Item(){
     }
+
     public Item(String itemName, Integer price, Integer quantity){
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
     }
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
 }
