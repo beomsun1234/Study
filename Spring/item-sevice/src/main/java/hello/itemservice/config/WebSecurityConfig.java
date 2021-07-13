@@ -27,18 +27,11 @@
 //    protected void configure(HttpSecurity httpSecurity)
 //            throws Exception {
 //        httpSecurity.authorizeRequests()
-//                .antMatchers("/h2-console/**")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .formLogin();
-//
-//        httpSecurity.csrf()
-//                .ignoringAntMatchers("/h2-console/**");
-//        httpSecurity.headers()
-//                .frameOptions()
-//                .sameOrigin();
+//                .antMatchers("/h2-console/**").hasRole("ADMIN")//allow h2 console access to admins only
+//                .anyRequest().authenticated()//all other urls can be access by any authenticated role
+//                .and().formLogin()//enable form login instead of basic login
+//                .and().csrf().ignoringAntMatchers("/h2-console/**")//don't apply CSRF protection to /h2-console
+//                .and().headers().frameOptions().sameOrigin();//allow use of frame to same origin urls
 //    }
 //
 //
@@ -46,11 +39,7 @@
 //    public void configureGlobal(AuthenticationManagerBuilder auth)
 //            throws Exception {
 //        auth.jdbcAuthentication()
-//                .dataSource(dataSource)
-//                .withDefaultSchema()
-//                .withUser(User.withUsername("user")
-//                        .password(passwordEncoder().encode("pass"))
-//                        .roles("USER"));
+//                .dataSource(dataSource);
 //    }
 //
 //

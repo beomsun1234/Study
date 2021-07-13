@@ -1,35 +1,28 @@
 //package hello.itemservice.web.basic;
 //
 //import hello.itemservice.domain.User;
-//import hello.itemservice.service.UserService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.stereotype.Controller;
+//import org.springframework.ui.ModelMap;
 //import org.springframework.web.bind.annotation.*;
+//
+//import javax.servlet.http.HttpServletRequest;
 //
 //@Slf4j
 //@Controller
 //@RequestMapping("account")
 //public class AccountController {
-//    @Autowired
-//    private UserService userService;
 //
-//    @GetMapping("/login")
-//    public String login(){
-//        log.info("login페이지");
+//    @RequestMapping("/login")
+//    public String handler(ModelMap model, HttpServletRequest request) {
+//        Authentication auth = SecurityContextHolder.getContext()
+//                .getAuthentication();
+//        model.addAttribute("uri", request.getRequestURI());
+//        model.addAttribute("user", auth.getName());
+//        model.addAttribute("roles", auth.getAuthorities());
 //        return "account/login";
-//    }
-//
-//    @GetMapping("/register")
-//    public String getregister(User user){
-//        log.info("register페이지");
-//        log.info("user={}",user.getPassword());
-//        return "account/register";
-//    }
-//    @PostMapping("/register")
-//    public String register(User user){
-//        log.info("name={}",user);
-//        userService.save(user);
-//        return "redirect:/basic/items";
 //    }
 //}

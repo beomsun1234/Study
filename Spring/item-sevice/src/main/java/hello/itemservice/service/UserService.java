@@ -14,12 +14,10 @@
 //    private PasswordEncoder passwordEncoder;
 //
 //
-//    public User save(User user) {
-//        String encodePassword=passwordEncoder.encode(user.getPassword());
-//        user.setPassword(encodePassword);
-//        user.setEnabled(true);
+//    public User registerNewUserAccount(User accountDto) {
+//        User user = new User();
+//        user.setUsername(accountDto.getUsername());
+//        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
 //        return userRepository.save(user);
 //    }
-//
-//
 //}
