@@ -2,7 +2,9 @@ package jpabook.jpashop.domain;
 
 
 import jpabook.jpashop.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -27,6 +29,9 @@ public class OrderItem {
     private int orderPrice; //주문가격
     private int count; //주문수량
 
+    protected OrderItem() {
+     //다른곳에서 생성못하게한다
+    }
     //--생성 메서드 --//
 
     public static OrderItem createOrderItem(Item item, int orderPrice, int count){

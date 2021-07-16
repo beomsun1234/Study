@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain;
 
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.aspectj.weaver.ast.Or;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "oders")
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //다른곳에서 접근 x
 public class Order{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
