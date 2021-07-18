@@ -69,3 +69,52 @@
         
 > 주의: 변경 감지 기능을 사용하면 원하는 속성만 선택해서 변경할 수 있지만, 병합을 사용하면 모든 속성이
 변경된다. 병합시 값이 없으면 null 로 업데이트 할 위험도 있다. (병합은 모든 필드를 교체한다.)
+
+
+API 변환시 해당 에러 발생 할경우 <br>
+
+    java.lang.IllegalStateException: Cannot call sendError() after the response has been committed '
+    <br>
+
+ ManyToOne, OneToMany 양방향 관계에서 Member 엔티티를 조회할때
+- 스프링에서 JSON변환을 담당하는 Jackson 라이브러리를 이용해 Entity 객체를 그대로 JSON 문자열으로 변환시키게 되는데 Member 객체의 team 필드가 Team 엔티티를 참조하고, Team 객체의 members 필드가 Member 엔티티를 참조 하고 이를 변환 시키는 과정에서 같은 데이터가 반복적으로 출력이 되는 무한 루프가 발생하는 순환 참조 문제 발생
+
+해결방법
+
+1.<b>@JsonManagedReference, @JsonBackReference 추가</b>
+
+@JsonManagedReference
+- 양방향 관계에서 정방향(자식->부모) 참조할 변수에 어노테이션을 추가하면 직렬화에 포함된다
+
+@JsonBackReference
+- 양방향 관계에서 역방향(부모->자식) 참조로 어노테이션을 추가하면 직렬화에서 제외된다.
+
+
+Order
+
+ @JsonManagedReference
+ 
+     @JsonManagedReference // 순환참조 방지
+     @ManyToOne(fetch = FetchType.LAZY) //lazy = 지연로딩 // ManyTo x -> 다 lazy로 바꾸기 기본타입(eager)
+     @JoinColumn(name = "member_id") //fk키
+     private Member member;
+ 
+Member 
+
+@JsonBackReference
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "member") //연관관계 주인이아니에요~~  오더테이블에있는 member필드에 의해 맵핑
+    private List<Order> orders = new ArrayList<>(); //읽기 전용 //변경 x
+    
+    
+2.<b>DTO를사용하여 반환</b>
+
+주 원인은 양방향 관계에서 entity 자체를 controller에서 그대로 return 하도록 설계한 것이 문제, entity가 변경될일이 있을 때 유연하게 대응하기 어렵기 때문에
+DTO를 만들어 필요한 데이터만 옮겨담아 controller에서 return하면 순환참조 문제를 막을 수 있음
+
+
+3.연관관계 재 설정
+양방향 관계는 필수가 아닌 선택이다 비즈니스 로직에 따라 재설정 할 필요가 있다
+
+

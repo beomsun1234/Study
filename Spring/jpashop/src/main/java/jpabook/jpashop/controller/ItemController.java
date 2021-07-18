@@ -1,6 +1,7 @@
 package jpabook.jpashop.controller;
 
 
+import jpabook.jpashop.controller.form.BookForm;
 import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.service.ItemService;

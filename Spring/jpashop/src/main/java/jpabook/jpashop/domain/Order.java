@@ -1,6 +1,7 @@
 package jpabook.jpashop.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class Order{
     private Long id;
 
 
-
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY) //lazy = 지연로딩 // ManyTo x -> 다 lazy로 바꾸기 기본타입(eager)
     @JoinColumn(name = "member_id") //fk키
     private Member member;

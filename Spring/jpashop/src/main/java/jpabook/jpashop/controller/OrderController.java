@@ -1,9 +1,9 @@
 package jpabook.jpashop.controller;
 
 
+import jpabook.jpashop.controller.form.OrderForm;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.service.ItemService;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -42,7 +41,7 @@ public class OrderController {
     @PostMapping("/order")
     public String orderItem(OrderForm orderForm){
         log.info("orderForm={}",orderForm);
-        orderService.order(orderForm.getMemberId(), orderForm.getItemId(), orderForm.count);
+        orderService.order(orderForm.getMemberId(), orderForm.getItemId(), orderForm.getCount());
         return "redirect:/orders";
     }
 
