@@ -33,7 +33,6 @@ public class MemberController {
         if (result.hasErrors()){
             return "members/createMemberForm";
         }
-
         Address address = new Address(form.getCity(),form.getStreet(),form.getHomecode());
         Member member = new Member();
         member.setName(form.getName());
@@ -43,6 +42,7 @@ public class MemberController {
     }
     @GetMapping("/members")
     public String getMembers(Model model){
+        //dto로 변환후 반환하자!! , API를 만들때 절때 엔티티 외부 반환 XXXX
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members);
         return "members/memberList";

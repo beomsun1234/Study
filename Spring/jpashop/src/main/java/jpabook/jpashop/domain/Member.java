@@ -24,7 +24,6 @@ public class Member {
     @Embedded //내장타입
     private Address address;
 
-
     @OneToMany(mappedBy = "member") //연관관계 주인이아니에요~~  오더테이블에있는 member필드에 의해 맵핑
     private List<Order> orders = new ArrayList<>(); //읽기 전용 //변경 x
 
