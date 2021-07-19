@@ -36,6 +36,10 @@ public class ItemService {
         findItem.setPrice(price);
         findItem.setStockQuantity(stockQauantity);
     }
+    @Transactional
+    public void deleteItem(Long itemId){
+        itemRepository.deleteById(itemId);
+    }
 
 //    public void updateItem(Long itemId, UpdateItemDto itemDto){
 //        Item findItem = itemRepository.findOne(itemId); //영속성 컨텐츠를 가져옴
