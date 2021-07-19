@@ -35,12 +35,13 @@ public class MemberService {
         return member.getId(); //아이디를 리턴해야 머가 저장되었는지 알수있음
     }
     @Transactional
-    public void update(Long memberId, MemberForm memberForm){
+    public Long update(Long memberId, MemberForm memberForm){
         Member member = memberRepository.findById(memberId);
         Address address = new Address(memberForm.getCity(), memberForm.getStreet(), memberForm.getHomecode());
         member.setName(memberForm.getName());
         member.setAddress(address);
         validateDuplicateMember(member);
+        return member.getId();
 
     }
     private void validateDuplicateMember(Member member) {

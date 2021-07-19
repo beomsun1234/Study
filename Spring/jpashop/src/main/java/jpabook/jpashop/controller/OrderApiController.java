@@ -1,7 +1,9 @@
 package jpabook.jpashop.controller;
 
 
+import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderDto;
 import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.service.ItemService;
 import jpabook.jpashop.service.MemberService;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,12 +28,11 @@ public class OrderApiController {
     private final MemberService memberService;
     private final ItemService itemService;
 
-//    @GetMapping("/orders")
-//    public String responseFindEntity(OrderSearch orderSearch){
-//        List<Order> orders = orderService.searchOrder(orderSearch);
-//        return orders.get(0).getMember().getName();
-//        //dto로 처리해야함
-//    }
-
+    @GetMapping("/orders")
+    public List<OrderDto> responseFindEntity(){
+        List<Order> orders = orderService.searchOrder(new OrderSearch());
+        return orders.stream().map(OrderDto::new).collect(Collectors.toList());
+        //dto로 처리해야함
+    }
 
 }
