@@ -35,7 +35,6 @@ public class OrderController {
         List<Item> items = itemService.findItem();
         model.addAttribute("members", members);
         model.addAttribute("items", items);
-
         return "order/orderForm";
     }
     @PostMapping("/order")
@@ -47,8 +46,7 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String orderItemList(OrderSearch orderSearch, Model model){
-
-        List<Order> orders = orderService.searchOrder(orderSearch);
+        List<Order> orders = orderService.findOrderAll(orderSearch);
         model.addAttribute("orders",orders);
         model.addAttribute("orderSerch", orderSearch);
         return "order/orderList";

@@ -79,6 +79,9 @@ public class Order{
      * 주문취소
      */
     public void cancel(){
+        if (this.getStatus().equals(OrderStatus.CANCEL)){
+            throw  new IllegalStateException("상품이 이미 취소되었습니다!"); //api 개발시 취소 상태에서 다시 취소 할 경우 수량이 증가하는 문제 발생함
+        }
         if (delivery.getStatus()==DeliveryStatus.COMPLETE){
             throw  new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         }

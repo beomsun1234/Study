@@ -1,5 +1,7 @@
 package jpabook.jpashop.domain;
 
+import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.repository.OrderRepository;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -19,4 +21,26 @@ public class OrderDto {
         orderStatus = order.getStatus();
         address = order.getDelivery().getAddress(); // lazy
     }
+
+    @Data
+    public static class Response{
+        Long id;
+        String returnMessage;
+
+        public Response(Long id, String returnMessage) {
+            this.id = id;
+            this.returnMessage = returnMessage;
+        }
+    }
+
+    @Data
+    public static class OrderRequest{
+        private Long memberId; //주문회원 id로 찾기
+        private Long itemId; // itemId
+        private int count;
+        public OrderRequest(){
+        }
+    }
+
+
 }
