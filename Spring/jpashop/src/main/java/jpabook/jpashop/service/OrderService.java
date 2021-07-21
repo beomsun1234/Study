@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -41,6 +42,11 @@ public class OrderService {
         //주문 저장장
        orderRepository.save(order);
         return order.getId();
+    }
+
+    public List<OrderDto> findAll(){
+        List<Order> orderList = orderRepository.findAllFetchJoin();
+        return orderList.stream().map(OrderDto::new).collect(Collectors.toList());
     }
     //취소
     @Transactional

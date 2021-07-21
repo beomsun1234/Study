@@ -2,6 +2,7 @@ package jpabook.jpashop.repository;
 
 
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderDto;
 import jpabook.jpashop.domain.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
@@ -31,7 +32,6 @@ public class OrderRepository {
     }
 
     public List<Order> findAll(OrderSearch orderSearch){
-
         return em.createQuery("select o from Order o join o.member m" +
                " where o.status = :status" +
                " and m.name like : name", Order.class)
@@ -40,6 +40,12 @@ public class OrderRepository {
                .setMaxResults(1000) //결과 재한 .setfirstRe사용하면 페이징시 사요ㅕㅇ가능
                .getResultList();
     }
+
+
+    public List<Order> findAllFetchJoin(){
+        return em.createQuery("select o from Order o join fetch o.member join fetch o.delivery",Order.class).getResultList();
+    }
+
     public List<Order> findAllByString(OrderSearch orderSearch) {
         //language=JPAQL
         String jpql = "select o From Order o join o.member m";

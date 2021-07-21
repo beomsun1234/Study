@@ -1,8 +1,6 @@
 package jpabook.jpashop.controller;
 
 
-import jpabook.jpashop.domain.Delivery;
-import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderDto;
 import jpabook.jpashop.repository.OrderSearch;
@@ -11,13 +9,11 @@ import jpabook.jpashop.service.MemberService;
 import jpabook.jpashop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,11 +33,19 @@ public class OrderApiController {
 
 
     //주문 조회 전체
+//    @GetMapping("/orders")
+//    public ResponseEntity<List<OrderDto>> responseFindEntity(){
+//        List<Order> orders = orderService.findOrderAll(new OrderSearch());
+//        return new ResponseEntity<>(orders.stream().map(OrderDto::new).collect(Collectors.toList()), HttpStatus.OK);
+//    }
+    //주문전체 조회 패치조인사용
     @GetMapping("/orders")
     public ResponseEntity<List<OrderDto>> responseFindEntity(){
-        List<Order> orders = orderService.findOrderAll(new OrderSearch());
-        return new ResponseEntity<>(orders.stream().map(OrderDto::new).collect(Collectors.toList()), HttpStatus.OK);
+        List<OrderDto> orderDtos = orderService.findAll();
+        return new ResponseEntity<>(orderDtos,HttpStatus.OK);
     }
+
+
 
     //주문하기
     @PostMapping("/orders")

@@ -2,9 +2,13 @@ package jpabook.jpashop.domain;
 
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.OrderRepository;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class OrderDto {
@@ -13,13 +17,28 @@ public class OrderDto {
     private LocalDateTime orderDate;
     private OrderStatus orderStatus;
     private Address address;
+    private List<OrderItem> orderItems;
 
     public OrderDto(Order order){
         orderId = order.getId();
         name = order.getMember().getName(); // lazy
         orderDate = order.getOrderDate();
         orderStatus = order.getStatus();
+        orderItems = order.getOrderItems().stream().map(orderItem -> OrderItemDto.builder().orderItem).collect(Collectors.toList());
         address = order.getDelivery().getAddress(); // lazy
+    }
+    @Data
+    @NoArgsConstructor
+    public static class OrderItemDto{
+        private String itemName;
+        private int orderPrice;
+        private int count;
+        @Builder
+        public OrderItemDto(OrderItem  orderItem){
+            itemName = orderItem.getItem().getName();
+            orderPrice = orderItem.getOrderPrice();
+            count = orderItem.getCount();
+        }
     }
 
     @Data
@@ -38,8 +57,6 @@ public class OrderDto {
         private Long memberId; //주문회원 id로 찾기
         private Long itemId; // itemId
         private int count;
-        public OrderRequest(){
-        }
     }
 
 
