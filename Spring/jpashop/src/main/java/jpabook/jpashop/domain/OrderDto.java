@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static jpabook.jpashop.domain.OrderDto.OrderItemDto.*;
+
 @Data
 public class OrderDto {
     private Long orderId;
@@ -17,24 +19,25 @@ public class OrderDto {
     private LocalDateTime orderDate;
     private OrderStatus orderStatus;
     private Address address;
-    private List<OrderItem> orderItems;
+    private List<OrderItemDto> orderItems;
 
     public OrderDto(Order order){
         orderId = order.getId();
         name = order.getMember().getName(); // lazy
         orderDate = order.getOrderDate();
         orderStatus = order.getStatus();
-        orderItems = order.getOrderItems().stream().map(orderItem -> OrderItemDto.builder().orderItem).collect(Collectors.toList());
+        orderItems = order.getOrderItems().stream().map(OrderItemDto::new).collect(Collectors.toList());
         address = order.getDelivery().getAddress(); // lazy
     }
     @Data
     @NoArgsConstructor
-    public static class OrderItemDto{
+    public static class OrderItemDto {
         private String itemName;
         private int orderPrice;
         private int count;
+
         @Builder
-        public OrderItemDto(OrderItem  orderItem){
+        public OrderItemDto(OrderItem orderItem) {
             itemName = orderItem.getItem().getName();
             orderPrice = orderItem.getOrderPrice();
             count = orderItem.getCount();

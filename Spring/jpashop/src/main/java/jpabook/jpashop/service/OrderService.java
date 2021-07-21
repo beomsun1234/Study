@@ -8,6 +8,7 @@ import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -46,7 +48,7 @@ public class OrderService {
 
     public List<OrderDto> findAll(){
         List<Order> orderList = orderRepository.findAllFetchJoin();
-        return orderList.stream().map(OrderDto::new).collect(Collectors.toList());
+        return orderList.stream().map(o->new OrderDto(o)).collect(Collectors.toList());
     }
     //취소
     @Transactional

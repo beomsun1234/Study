@@ -40,11 +40,11 @@ public class OrderRepository {
 
 
     public List<Order> findAllFetchJoin(){
-        return em.createQuery("select distinct  o from Order o" +
+        return em.createQuery("select o from Order o" +
                 " join fetch o.member m" +
                 " join fetch o.delivery d" +
-                " join fetch o.orderItems oi" +
-                " join fetch oi.item i" ,Order.class).getResultList();
+                " join fetch o.orderItems oi"+
+                " join fetch oi.item i",Order.class).getResultList();
     }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
