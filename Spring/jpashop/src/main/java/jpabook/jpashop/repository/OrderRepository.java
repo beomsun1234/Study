@@ -2,10 +2,7 @@ package jpabook.jpashop.repository;
 
 
 import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderDto;
-import jpabook.jpashop.domain.OrderStatus;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -43,7 +40,11 @@ public class OrderRepository {
 
 
     public List<Order> findAllFetchJoin(){
-        return em.createQuery("select o from Order o join fetch o.member join fetch o.delivery",Order.class).getResultList();
+        return em.createQuery("select distinct  o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d" +
+                " join fetch o.orderItems oi" +
+                " join fetch oi.item i" ,Order.class).getResultList();
     }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
