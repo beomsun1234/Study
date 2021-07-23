@@ -1,31 +1,53 @@
 package jpabook.jpashop.service;
 
 import jpabook.jpashop.controller.form.MemberForm;
+import jpabook.jpashop.controller.form.SignUpForm;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @org.springframework.transaction.annotation.Transactional(readOnly = true)
 @RequiredArgsConstructor//파이널만 설정
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
-    @Autowired
     private final MemberRepository memberRepository;
 
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
      * 회원가입
      *
      * 회원 전체 조회
      */
+    @Transactional
+    public Long joinV2(SignUpForm signUpForm){
+        Member member = new Member();
+        member.setName(signUpForm.getName());
+        member.setEmail(signUpForm.getEmail());
+        member.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
+        member.setRole("USER");
+        member.setAddress(new Address(signUpForm.getCity(),signUpForm.getStreet(),signUpForm.getHomecode()));
+        validateDuplicateMember(member); //중복검증
+        memberRepository.save(member);
+        return member.getId(); //아이디를 리턴해야 머가 저장되었는지 알수있음
+    }
 
     //회원가입
     @Transactional
@@ -66,4 +88,11 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+//        List<Member> memberWrapper = memberRepository.finByName(name);
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        authorities.forEach(Member-> authorities.add(memberWrapper.get(0).getRole()));
+        return null;
+    }
 }

@@ -19,7 +19,9 @@ public class Member {
     @Column(name = "member_id")
     private long id;
 
-
+    private String email;
+    private String role;
+    private String password;
     private String name;
 
     @Embedded //내장타입

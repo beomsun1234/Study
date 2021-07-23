@@ -2,29 +2,48 @@ package jpabook.jpashop.controller;
 
 
 import jpabook.jpashop.controller.form.MemberForm;
+import jpabook.jpashop.controller.form.SignUpForm;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+
+   @GetMapping("/members/sign")
+   public String createSignUpForm(){
+       log.info("sigup");
+       return "members/createSigUpForm";
+   }
+    @PostMapping("/members/sign")
+    public String addMember(@ModelAttribute SignUpForm signUpForm){
+       log.info("완료","완성됨");
+        memberService.joinV2(signUpForm);
+        return "redirect:/";
+    }
+
+
 
     @GetMapping("/members/new")
     public String createForm(Model model){
         model.addAttribute("memberForm", new MemberForm());
         return "members/createMemberForm";
     }
+
 
     @PostMapping("/members/new")
     public String createMember(@Valid MemberForm form, BindingResult result){

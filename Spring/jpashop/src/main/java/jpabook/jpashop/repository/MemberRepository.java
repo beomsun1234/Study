@@ -34,6 +34,7 @@ public class MemberRepository {
         return em.createQuery("select m from Member m where m.name=:name", Member.class).setParameter("name",name).getResultList();
     }
 
+
     public void delete(Long memberId){
         em.createQuery("delete from Member m where m.id=:memberId").setParameter("memberId",memberId).executeUpdate();
     }
