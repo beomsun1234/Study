@@ -25,14 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/members/**").hasAnyRole("USER")
+                .antMatchers("/sign").permitAll()
                 .and()
                 .formLogin()
+                    .successForwardUrl("/")
                 .and()
                 .csrf().disable();		//로그인 창
-    }
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
     }
 }

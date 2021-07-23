@@ -24,12 +24,12 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
 
-   @GetMapping("/members/sign")
+   @GetMapping("/sign")
    public String createSignUpForm(){
        log.info("sigup");
-       return "members/createSigUpForm";
+       return "createSigUpForm";
    }
-    @PostMapping("/members/sign")
+    @PostMapping("/sign")
     public String addMember(@ModelAttribute SignUpForm signUpForm){
        log.info("완료","완성됨");
         memberService.joinV2(signUpForm);
