@@ -1,7 +1,6 @@
 package jpabook.jpashop.domain;
 
-import jpabook.jpashop.domain.item.Item;
-import jpabook.jpashop.repository.OrderRepository;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static jpabook.jpashop.domain.OrderDto.OrderItemDto.*;
 
 @Data
 public class OrderDto {
@@ -48,7 +46,6 @@ public class OrderDto {
     public static class Response{
         Long id;
         String returnMessage;
-
         public Response(Long id, String returnMessage) {
             this.id = id;
             this.returnMessage = returnMessage;

@@ -2,8 +2,10 @@ package jpabook.jpashop.controller;
 
 
 import jpabook.jpashop.controller.form.OrderForm;
+import jpabook.jpashop.controller.form.UserInfo;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderDto;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.service.ItemService;
@@ -31,7 +33,7 @@ public class OrderController {
 
     @GetMapping("/order")
     public String createForm(Model model){
-        List<Member> members = memberService.findMembers();
+        List<UserInfo> members = memberService.findMembers();
         List<Item> items = itemService.findItem();
         model.addAttribute("members", members);
         model.addAttribute("items", items);
@@ -46,7 +48,7 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String orderItemList(OrderSearch orderSearch, Model model){
-        List<Order> orders = orderService.findOrderAll(orderSearch);
+        List<OrderDto> orders = orderService.findAll();
         model.addAttribute("orders",orders);
         model.addAttribute("orderSerch", orderSearch);
         return "order/orderList";

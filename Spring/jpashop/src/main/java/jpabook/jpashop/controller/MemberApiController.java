@@ -2,6 +2,7 @@ package jpabook.jpashop.controller;
 
 
 import jpabook.jpashop.controller.form.MemberForm;
+import jpabook.jpashop.controller.form.UserInfo;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
@@ -24,14 +25,14 @@ public class MemberApiController {
 
     // 회원 단일 조회
     @GetMapping("/members/{memberId}")
-    public ResponseEntity<Member> findBtyId(@PathVariable Long memberId){
-        Member member = memberService.findOne(memberId);
+    public ResponseEntity<UserInfo> findBtyId(@PathVariable Long memberId){
+        UserInfo member = memberService.findOne(memberId);
         return new ResponseEntity<>(member,HttpStatus.OK);
     }
     //회원 전체조회
     @GetMapping("/members")
-    public ResponseEntity<List<Member>> findAll(){
-        List<Member> members = memberService.findMembers();
+    public ResponseEntity<List<UserInfo>> findAll(){
+        List<UserInfo> members = memberService.findMembers();
         return new ResponseEntity<>(members ,HttpStatus.OK);
     }
     //회원등록
