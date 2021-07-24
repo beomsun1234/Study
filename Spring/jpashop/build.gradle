@@ -2,8 +2,11 @@ plugins {
 	id 'org.springframework.boot' version '2.4.8'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-}
 
+}
+bootJar {
+	mainClass = 'jpabook.jpashop.JpashopApplication'
+}
 group = 'jpabook'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
