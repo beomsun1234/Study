@@ -4,7 +4,6 @@ spring:
     username: sa
     password: 1234
     driver-class-name: org.h2.Driver
-
   security:
     oauth2:
       client:
@@ -15,4 +14,7 @@ spring:
             scope:
               - email
               - profile
+  jpa:
+    hibernate:
+      ddl-auto: create
 

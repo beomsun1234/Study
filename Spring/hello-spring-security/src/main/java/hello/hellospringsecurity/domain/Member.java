@@ -23,17 +23,19 @@ public class Member {
     @NonNull
     private String name;
 
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
     private AuthenticationProvider authenticationProvider;
 
     @Builder
-    public Member(Long id, String email, String name, AuthenticationProvider authenticationProvider){
+    public Member(Long id, String email, String name, AuthenticationProvider authenticationProvider, Role role){
         this.id = id;
         this.email =email;
         this.name = name;
         this.authenticationProvider = authenticationProvider;
+        this.role = role;
     }
 
 
