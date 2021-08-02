@@ -20,6 +20,8 @@ public class Member {
     @NonNull
     private String password;
 
+    private String picture;
+
     @NonNull
     private String name;
 
@@ -30,12 +32,16 @@ public class Member {
     private AuthenticationProvider authenticationProvider;
 
     @Builder
-    public Member(Long id, String email, String name, AuthenticationProvider authenticationProvider, Role role){
-        this.id = id;
+    public Member(String email, String name,String picture, Role role){
         this.email =email;
         this.name = name;
-        this.authenticationProvider = authenticationProvider;
+        this.picture = picture;
         this.role = role;
+    }
+    public Member update(String name){
+        this.name=name;
+
+        return this;
     }
 
 

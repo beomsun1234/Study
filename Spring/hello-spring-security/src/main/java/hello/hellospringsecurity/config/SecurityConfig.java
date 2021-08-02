@@ -1,4 +1,4 @@
-package hello.hellospringsecurity;
+package hello.hellospringsecurity.config;
 
 import hello.hellospringsecurity.oauth.CustomOauth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                     .antMatchers("/", "/h2-consloe/**").permitAll()
                 .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
+                .formLogin().permitAll()
+                .loginPage("/loginForm")
+                .loginProcessingUrl("/login") //login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
                 .and()
-                    .oauth2Login()
-                        .userInfoEndpoint()
-                            .userService(customOauth2UserService);
+                    .oauth2Login().permitAll()
+                    .loginPage("/loginForm");
+//                        .userInfoEndpoint()
+//                            .userService(customOauth2UserService);
     }
     /**
      * @EnableWebSecurity
