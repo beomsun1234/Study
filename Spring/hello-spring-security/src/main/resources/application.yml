@@ -18,3 +18,11 @@ spring:
     hibernate:
       ddl-auto: create
 
+
+
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+
+
