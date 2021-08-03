@@ -20,15 +20,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .antMatchers("/", "/h2-consloe/**").permitAll()
+                    .antMatchers("/member/**").hasRole("USER")
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll()
-                .loginPage("/loginForm")
-                .loginProcessingUrl("/login") //login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
+                    .formLogin().permitAll()
+                        .loginPage("/loginForm")
+                            .loginProcessingUrl("/login") //login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
                 .and()
                     .oauth2Login().permitAll()
-                    .loginPage("/loginForm");
-//                        .userInfoEndpoint()
-//                            .userService(customOauth2UserService);
+                        .loginPage("/loginForm")
+                            .userInfoEndpoint()
+                                .userService(customOauth2UserService);
     }
     /**
      * @EnableWebSecurity

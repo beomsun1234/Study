@@ -14,11 +14,16 @@ public class OAuthAttributes {
     private String email;
     private String picture;
 
+
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String name, String email){
+    public OAuthAttributes(Map<String, Object> attributes,
+                           String nameAttributeKey,
+                           String name, String email, String picture) {
         this.attributes = attributes;
+        this.nameAttributeKey = nameAttributeKey;
         this.name = name;
-        this.email =email;
+        this.email = email;
+        this.picture = picture;
     }
     public static OAuthAttributes of(String registrationId,
                                      String userNameAttributeName,
@@ -32,8 +37,17 @@ public class OAuthAttributes {
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
                 .build();
     }
+
+    /**
+     * toEntity()
+     * User 엔티티 생성
+     * OAuthAttributes에서 엔티티 생성 시점 = 처음 가입 시
+     * OAuthAttributes 클래스 생성이 끝났으면 같은 패키지에 SessionUser 클래스 생성
+     * @return
+     */
     public Member toEntity() {
         return Member.builder()
                 .name(name)

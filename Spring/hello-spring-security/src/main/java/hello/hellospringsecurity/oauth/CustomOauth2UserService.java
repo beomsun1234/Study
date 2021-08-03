@@ -25,20 +25,37 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
-
+        // 현재 로그인 진행 중인 서비스를 구분하는 코드
+        /**
+         * registrationId
+         * 현재 로그인 진행 중인 서비스 구분하는 코드.
+         * 이후에 여러가지 추가할 때 네이버인지 구글인지 구분
+        */
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        // oauth2 로그인 진행 시 키가 되는 필드값
+        /**
+         *OAuth2 로그인 진행 시 키가 되는 필드값 (=Primary Key)
+         * 구글 기본 코드: sub, 네이버 카카오 등은 기본 지원 x
+         * 이후 네이버, 구글 로그인 동시 지원시 사용
+         */
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-
+        // OAuthAttributes: attribute를 담을 클래스 (개발자가 생성)
+        /**
+         * OAuthAttributes
+         * OAuth2UserService를 통해 가져온 OAuth2User의 attribute
+         * 네이버 등 다른 소셜 로그인도 이 클래스 사용
+        */
         OAuthAttributes attributes = OAuthAttributes.
                 of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         Member member = saveOrUpdate(attributes);
         httpSession.setAttribute("member", new SesstionUser(member));
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(member.getPassword())),
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 attributes.getAttributes(),
-                attributes.getNameAttributeKey());
+                attributes.getNameAttributeKey()
+        );
     }
 
     private Member saveOrUpdate(OAuthAttributes attributes) {
