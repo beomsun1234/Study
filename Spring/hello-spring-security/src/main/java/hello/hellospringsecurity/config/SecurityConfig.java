@@ -27,6 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .loginPage("/loginForm")
                             .loginProcessingUrl("/login") //login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인 진행
                 .and()
+                    .logout()
+                        .logoutSuccessUrl("/")
+                            .invalidateHttpSession(true)
+                .and()
                     .oauth2Login().permitAll()
                         .loginPage("/loginForm")
                             .userInfoEndpoint()
