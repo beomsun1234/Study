@@ -1,4 +1,5 @@
 package hello.hellospringsecurity.oauth;
+import hello.hellospringsecurity.domain.AuthenticationProvider;
 import hello.hellospringsecurity.domain.Member;
 import hello.hellospringsecurity.domain.Role;
 import lombok.Builder;
@@ -13,17 +14,18 @@ public class OAuthAttributes {
     private String name;
     private String email;
     private String picture;
-
+    private AuthenticationProvider authenticationProvider;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes,
                            String nameAttributeKey,
-                           String name, String email, String picture) {
+                           String name, String email, String picture,AuthenticationProvider authenticationProvider) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.authenticationProvider = authenticationProvider;
     }
     public static OAuthAttributes of(String registrationId,
                                      String userNameAttributeName,
@@ -38,6 +40,7 @@ public class OAuthAttributes {
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
+                .authenticationProvider(AuthenticationProvider.GOOGLE)
                 .build();
     }
 
@@ -53,6 +56,7 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .role(Role.ROLE_USER)
+                .authenticationProvider(authenticationProvider)
                 .build();
     }
 

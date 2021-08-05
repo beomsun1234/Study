@@ -1,6 +1,7 @@
 package hello.hellospringsecurity.oauth;
 
 import hello.hellospringsecurity.Repository.MemberRepository;
+import hello.hellospringsecurity.domain.AuthenticationProvider;
 import hello.hellospringsecurity.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,7 +49,6 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
         */
         OAuthAttributes attributes = OAuthAttributes.
                 of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-
         Member member = saveOrUpdate(attributes);
         httpSession.setAttribute("member", new SesstionUser(member));
         return new DefaultOAuth2User(
@@ -64,7 +64,6 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
                 )
                 .orElse(attributes.toEntity());
         attributes.toEntity();
-
         return memberRepository.save(member);
     }
 

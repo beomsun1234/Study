@@ -25,6 +25,7 @@ public class Member {
     @NonNull
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Enumerated(EnumType.STRING)
@@ -32,11 +33,12 @@ public class Member {
     private AuthenticationProvider authenticationProvider;
 
     @Builder
-    public Member(String email, String name,String picture, Role role){
+    public Member(String email, String name,String picture, Role role, AuthenticationProvider authenticationProvider){
         this.email =email;
         this.name = name;
         this.picture = picture;
         this.role = role;
+        this.authenticationProvider = authenticationProvider;
     }
     public Member update(String name){
         this.name=name;
