@@ -1,6 +1,4 @@
 package com.bs.helloquerydsl.domain;
-
-
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,6 +7,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static com.bs.helloquerydsl.domain.QPost.post;
+
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom{
 
@@ -16,15 +16,20 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 
     @Override
     public List<Post> findByTitle(String title) {
-        QPost post = QPost.post;
         return queryFactory.selectFrom(post)
                 .where(post.title.eq(title))
                 .fetch();
     }
 
     @Override
+    public List<Post> findByAuthor(String author) {
+        return queryFactory.selectFrom(post)
+                .where(post.author.eq(author))
+                .fetch();
+    }
+
+    @Override
     public List<Post> findByTitleContainingOrContentContaining(String title, String content) {
-        QPost post = QPost.post;
         BooleanBuilder builder = new BooleanBuilder();
         if (!StringUtils.isEmpty(title)){
             builder.and(post.title.contains(title));
@@ -38,8 +43,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
     }
 
     @Override
+    public List<Post> findByContent(String Content) {
+        return queryFactory.selectFrom(post)
+                .where(post.content.eq(Content))
+                .fetch();
+    }
+
+    @Override
     public List<Post> findDynamicQuery(String title, String content, String author) {
-        QPost post = QPost.post;
         return queryFactory.selectFrom(post)
                 .where( eqAuthor(author),
                         (containsContent(title).
@@ -49,7 +60,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 
     @Override
     public List<Post> findByTitleContainingOrContentContainingUsingBE(String title, String content) {
-        QPost post = QPost.post;
         return queryFactory.selectFrom(post)
                 .where(containsContent(title)
                         .or(containsTitle(content))
@@ -57,21 +67,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
     }
 
     private BooleanExpression eqAuthor(String author){
-        QPost post = QPost.post;
         if (StringUtils.isEmpty(author)){
             return null;
         }
         return post.author.eq(author);
     }
     private BooleanExpression containsTitle(String title){
-        QPost post = QPost.post;
         if (StringUtils.isEmpty(title)){
             return null;
         }
         return post.title.contains(title);
     }
     private BooleanExpression containsContent(String content){
-        QPost post = QPost.post;
         if (StringUtils.isEmpty(content)){
             return null;
         }

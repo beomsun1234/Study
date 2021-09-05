@@ -134,6 +134,61 @@ public class PostRepositoryImplTest {
 
         //then
         Assertions.assertThat(posts.size()).isEqualTo(2);
+    }
+    @DisplayName("커스텀repo test 작성자 찾기")
+    @Test
+    public void test05() {
+        //given
+        String title = "testT";
+        String content = "testC";
+        String author = "park";
+        Post post = Post.builder()
+                .title(title)
+                .content(content)
+                .author(author).build();
 
+        postRepository.save(post);
+
+        String title1 = "testT";
+        String content2 = "testC";
+        String author2 = "park";
+        Post post2 = Post.builder()
+                .title(title1)
+                .content(content2)
+                .author(author2).build();
+
+        postRepository.save(post2);
+        //when
+        List<Post> posts = postRepository.findByAuthor("park");
+        //then
+        Assertions.assertThat(posts.size()).isEqualTo(2);
+    }
+    @DisplayName("커스텀repo test content 찾기")
+    @Test
+    public void test06() {
+        //given
+        String title = "testT";
+        String content = "testC";
+        String author = "park";
+        Post post = Post.builder()
+                .title(title)
+                .content(content)
+                .author(author).build();
+
+        postRepository.save(post);
+
+        String title1 = "testT";
+        String content2 = "testC";
+        String author2 = "park";
+        Post post2 = Post.builder()
+                .title(title1)
+                .content(content2)
+                .author(author2).build();
+
+        postRepository.save(post2);
+        //when
+        List<Post> posts = postRepository.findByContent("testC");
+        //then
+        Assertions.assertThat(posts.size()).isEqualTo(2);
     }
 }
