@@ -43,11 +43,13 @@
    
 
 ![컨텐츠로찾기](https://user-images.githubusercontent.com/68090443/132236622-a1695fa3-023b-4adc-a8af-15764125e67d.PNG)
+ 
   
-        
+-----------------------        
+     
         
 ## ```동적쿼리```
-        
+
 ### 1. BooleanBuilder 사용
 
    - title만 들어올 경우 
@@ -106,15 +108,23 @@
 
 BooleanExpression을 사용하니 처음에 사용했던 BooleanBulider보다 명확하게 쿼리를 확인할 수 있다. 
    
-- 결과
+- 결과(값이 들어올 경우)
+   
    
  ![동적쿼리](https://user-images.githubusercontent.com/68090443/132236718-c6f43c57-8a1a-4182-9ccd-24fb77480da0.PNG)
+
+
+- 결과(null일경우)
+
 
 ![동적쿼리(모두입력안할경우 전체)](https://user-images.githubusercontent.com/68090443/132236751-45246c19-f270-4132-9d60-16d3ee25c664.PNG)
    
 
+
 하지만 BooleanExpression을 사용할 경우 메서드를 이용에 따른 코드량 증가할 것같다. 실무에서는 어떤식으로 관리하는지 궁금하다.
 
+
+-----------------------
 
 ## ```조인```
 
@@ -160,6 +170,7 @@ post(one) -< reply(many)
    ![leftjoin](https://user-images.githubusercontent.com/68090443/132236822-f7f9a579-591d-4da9-9523-53575d3e546c.PNG)
 
 
+
 ### 3. right join
 
 
@@ -196,7 +207,8 @@ post(one) -< reply(many)
 
 
 
-삽질
+---------------------
+### 삽질
 - 테스트 코드를 작성하고 테스트를 진행하려니 
 
       ERROR  
