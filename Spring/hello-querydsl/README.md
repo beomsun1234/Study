@@ -67,7 +67,7 @@
             }
             
             
-###2. BooleanExpression 사용
+### 2. BooleanExpression 사용
     
 
         public List<Post> findByContaingTitleOrContatingContent(String title, String content){
@@ -175,7 +175,7 @@ Intellij에서 QueryDSL를 사용할 때 QClass가 실제 존재함에도 불구
 
 즉 genereated 폴더가 패스에 등록되어 있지 않아 발생한 문제이다.
 
-### ```해결방법```
+### ```해결방법(gradle 5 미만일 경우만 되는것같다....)```
 
 
 - 1 
@@ -204,9 +204,9 @@ Intellij에서 QueryDSL를 사용할 때 QClass가 실제 존재함에도 불구
     
     잘 사용하면 끝이다!!
 
-이렇게 해도 QClass 관련 에러가 발생했다... 이유룰 찾아보니 gradle 버전이 6 이상이라 다른 방법으로 접근 해야했다. 
+### ```이렇게 해도 QClass 관련 에러가 발생했다...``` 이유룰 찾아보니 gradle 버전이 6 이상이라 다른 방법으로 접근 해야했다. 
 
-
+## ```해결방법(gradle 6이상)```
 - QueryDsl 설정 부문
 
       
