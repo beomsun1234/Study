@@ -1,5 +1,165 @@
 ## Hello-Querydsl
 
+
+### ```기본조회 쿼리```
+
+
+1) fetch()
+   - 리스트로 결과를 반환하는 방법이다. 만약에 데이터가 없으면 빈 리스트를 반환해준다.
+
+
+- 작성자 명으로 찾기
+  
+  
+    public List<Post> findByAuthor(String author){
+            return queryFactory.selectFrom(post)
+                    .where(post.author.eq(author))
+                    .fetch();
+        }
+     
+- Title 명으로 찾기  
+
+   
+     public List<Post> findByContaingTitle(String title){
+             return queryFactory.selectFrom(post)
+                     .where(contatingTitle(title))
+                     .fetch();
+         }
+         
+         
+- Content 명으로 찾기    
+
+      
+     public List<Post> findByCntatingContent(String content){
+                  return queryFactory.selectFrom(post)
+                          .where(contatingContent(content))
+                          .fetch();
+              }
+        
+        
+## ```동적쿼리```
+        
+### 1. BooleanBuilder 사용
+
+   - title만 들어올 경우 
+      - where title = :title
+   - content만 들어올 경우     
+      - where content = :content
+   - 2개가 다 들어올 경우 
+      - where title = :title or content = :content
+   
+   - 파리미터가 어떻게 오는지에 따라 where의 조건이 변경된다.
+   
+   이것을 코드로 구현하면 아래와 같다. 
+   
+
+         public List<Post> findByTitleContainingOrContentContaining(String title, String content) {
+                BooleanBuilder builder = new BooleanBuilder();
+                if (!StringUtils.isEmpty(title)){
+                    builder.and(post.title.contains(title));
+                }
+                if (!StringUtils.isEmpty(content)){
+                    builder.or(post.content.contains(content));
+                }
+                return queryFactory.selectFrom(post)
+                        .where(builder)
+                        .fetch();
+            }
+            
+            
+###2. BooleanExpression 사용
+    
+
+        public List<Post> findByContaingTitleOrContatingContent(String title, String content){
+            return queryFactory.selectFrom(post)
+                    .where(contatingTitle(title)
+                            .or(contatingContent(content)))
+                    .fetch();
+        }
+        
+        private BooleanExpression contatingTitle(String title){
+            if(title==null){
+                return null;  
+            }
+            return post.title.contains(title);
+        }
+        
+        private BooleanExpression contatingContent(String content){
+            if(content == null){
+                return null;
+            }
+            return post.content.contains(content);
+        }
+        
+- BooleanExpression은 where에서 사용할 수 있는 값인데, 이 값은 ,를 and조건으로 사용한다.
+- where에 null이 들어올 경우 조건문에서 제외됨(무시한다)
+
+
+
+BooleanExpression을 사용하니 처음에 사용했던 BooleanBulider보다 명확하게 쿼리를 확인할 수 있다. 
+
+하지만 BooleanExpression을 사용할 경우 메서드를 이용에 따른 코드량 증가할 것같다. 실무에서는 어떤식으로 관리하는지 궁금하다.
+
+
+## ```조인```
+
+### 1. inner join
+
+post(one) -< reply(many)
+
+    /**
+     * 댓글조회
+     * @param postId
+     * @return
+     */
+    public List<Reply> findAllReplyByPostId(Long postId){
+        return queryFactory.selectFrom(reply)
+                .join(reply.post, post)
+                .where(reply.post.id.eq(postId))
+                .fetch();
+    }
+    
+    on 절 생략가능 -> on(reply.post.id = post.id)
+    
+### 2. left join
+
+
+     public List<Tuple> leftJoin(){
+            return queryFactory.select(post,reply)
+                    .from(post)
+                    .leftJoin(post.replies, reply)
+                    .fetch();
+        }
+    
+    on 절 생략가능 on(post.id = reply.post.id)
+
+### 3. right join
+
+
+     public List<Tuple> rightJoin(){
+            return queryFactory.select(post,reply)
+                    .from(post)
+                    .rightJoin(post.replies, reply)
+                    .fetch();
+        }
+    
+     on 절 생략가능 on(post.id = reply.post.id)
+
+
+### 4. fetch join
+
+ - 페치 조인은 jpa 사용시 가장 기본적으로 사용하는 성능 최적화 방식이다. 연관된 엔티티나 컬렉션을 한번에 같이 조회해온다.
+
+
+    public List<Post> fetchJoin(){
+            return queryFactory.selectFrom(post)
+                    .join(post.replies, reply).fetchJoin()
+                    .fetch();
+        }
+
+
+
+
 삽질
 - 테스트 코드를 작성하고 테스트를 진행하려니 
 
@@ -44,10 +204,47 @@ Intellij에서 QueryDSL를 사용할 때 QClass가 실제 존재함에도 불구
     
     잘 사용하면 끝이다!!
 
+이렇게 해도 QClass 관련 에러가 발생했다... 이유룰 찾아보니 gradle 버전이 6 이상이라 다른 방법으로 접근 해야했다. 
 
 
+- QueryDsl 설정 부문
 
       
-      
+    buildscript {
+        ext {
+            queryDslVersion = "4.4.0" // QueryDsl버전
+        }
+    }
+    
+    plugins {
+        id 'org.springframework.boot' version '2.5.4'
+        id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+        id 'java'
+    }
+    
+    dependencies {
+        .....
+        
+        //QueryDsl 설정
+        implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+        annotationProcessor(
+                "javax.persistence:javax.persistence-api",
+                "javax.annotation:javax.annotation-api",
+                "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+    }
+    
+    sourceSets {
+        main {
+            java {
+                srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+            }
+        }
+    }      
         
         
+이와 같은 방법으로 설정하니 오류없이 잘 돌아갔다.
+
+
+참고 사이트
+- https://lteawoo.tistory.com/25
+- https://javachoi.tistory.com/397
