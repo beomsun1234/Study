@@ -25,6 +25,11 @@
                      .where(contatingTitle(title))
                      .fetch();
          }
+   
+   
+   
+![타이틀로찾기](https://user-images.githubusercontent.com/68090443/132236560-6e4285ea-e6ff-4e87-92b6-b33f36478433.PNG)
+
          
          
 - Content 명으로 찾기    
@@ -35,6 +40,10 @@
                           .where(contatingContent(content))
                           .fetch();
               }
+   
+
+![컨텐츠로찾기](https://user-images.githubusercontent.com/68090443/132236622-a1695fa3-023b-4adc-a8af-15764125e67d.PNG)
+  
         
         
 ## ```동적쿼리```
@@ -95,8 +104,14 @@
 - where에 null이 들어올 경우 조건문에서 제외됨(무시한다)
 
 
-
 BooleanExpression을 사용하니 처음에 사용했던 BooleanBulider보다 명확하게 쿼리를 확인할 수 있다. 
+   
+- 결과
+   
+ ![동적쿼리](https://user-images.githubusercontent.com/68090443/132236718-c6f43c57-8a1a-4182-9ccd-24fb77480da0.PNG)
+
+![동적쿼리(모두입력안할경우 전체)](https://user-images.githubusercontent.com/68090443/132236751-45246c19-f270-4132-9d60-16d3ee25c664.PNG)
+   
 
 하지만 BooleanExpression을 사용할 경우 메서드를 이용에 따른 코드량 증가할 것같다. 실무에서는 어떤식으로 관리하는지 궁금하다.
 
@@ -121,6 +136,12 @@ post(one) -< reply(many)
     
     on 절 생략가능 -> on(reply.post.id = post.id)
     
+- 결과
+   
+   
+   ![innerjoin](https://user-images.githubusercontent.com/68090443/132236962-2d150ac2-f136-4679-95a6-baf96dc0b7ed.PNG)
+
+   
 ### 2. left join
 
 
@@ -132,6 +153,12 @@ post(one) -< reply(many)
         }
     
     on 절 생략가능 on(post.id = reply.post.id)
+   
+-결과 
+   
+   
+   ![leftjoin](https://user-images.githubusercontent.com/68090443/132236822-f7f9a579-591d-4da9-9523-53575d3e546c.PNG)
+
 
 ### 3. right join
 
@@ -145,6 +172,11 @@ post(one) -< reply(many)
     
      on 절 생략가능 on(post.id = reply.post.id)
 
+-결과
+   
+   
+   ![rightjoin](https://user-images.githubusercontent.com/68090443/132236854-7a0a42cb-2479-4442-8ab2-be53edd82300.PNG)
+
 
 ### 4. fetch join
 
@@ -157,6 +189,10 @@ post(one) -< reply(many)
                     .fetch();
         }
 
+- 결과
+   
+   
+   ![패치조인](https://user-images.githubusercontent.com/68090443/132236900-36d23916-c7ed-4cfb-8b43-fccc6e6472c8.PNG)
 
 
 
