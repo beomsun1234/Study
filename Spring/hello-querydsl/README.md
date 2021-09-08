@@ -144,6 +144,11 @@ BooleanExpression을 사용하니 처음에 사용했던 BooleanBulider보다 �
 
 
 
+- 쿼리
+   
+   
+![기본페이징](https://user-images.githubusercontent.com/68090443/132487514-87702245-0609-47b9-a1c8-96da35b583ad.png)
+
 
 
 
@@ -167,6 +172,13 @@ BooleanExpression을 사용하니 처음에 사용했던 BooleanBulider보다 �
 
 
 
+- 쿼리
+   
+   
+   
+![동적쿼리페이징](https://user-images.githubusercontent.com/68090443/132487706-77343d35-16de-4298-a40d-ebf898845f32.png)
+   
+
 
 
 ###  ```- 페이징 동적쿼리(작성자, 제목, 내용으로찾기)```
@@ -188,11 +200,17 @@ BooleanExpression을 사용하니 처음에 사용했던 BooleanBulider보다 �
     }
 
 
+  
+
+- 쿼리
+   
+   
+
+ ![동적쿼리 v2](https://user-images.githubusercontent.com/68090443/132487770-438cd295-4fd3-4081-83d6-5d7fc13e161a.png)
 
 
 
-
-
+   
 -----------------------
 
 ## ```조인```
