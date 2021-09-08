@@ -1,6 +1,6 @@
 ## Hello-Querydsl
 
-#### next - 페이징쿼리 작성
+#### ~~next - 페이징쿼리 작성~~
 
 ### ```기본조회 쿼리```
 
@@ -123,6 +123,74 @@ BooleanExpression을 사용하니 처음에 사용했던 BooleanBulider보다 �
 
 
 하지만 BooleanExpression을 사용할 경우 메서드를 이용에 따른 코드량 증가할 것같다. 실무에서는 어떤식으로 관리하는지 궁금하다.
+
+-----------------------
+## 페이징 + 동적쿼리
+
+###  `````- 기본페이징`````
+
+    
+        public Page<Post> findPagePost(Pageable pageable){
+            QueryResults<Post> postQueryResults = queryFactory
+                    .selectFrom(post)
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+            long total = postQueryResults.getTotal(); // 전체 포스트
+            List<Post> posts = postQueryResults.getResults();
+    
+            return new PageImpl(posts, pageable,total);
+        }
+
+
+
+
+
+
+
+
+###  ```-페이징 동적쿼리 (제목, 내용으로 찾기)```
+
+
+    public Page<Post> dynamicPagePostv2(String title, String content, Pageable pageable){
+        QueryResults<Post> postQueryResults = queryFactory
+                   .selectFrom(post)
+                   .where(contatingTitle(title)
+                           .or(contatingContent(content)))
+                   .offset(pageable.getOffset())
+                   .limit(pageable.getPageSize())
+                   .fetchResults();
+        List<Post> posts = postQueryResults.getResults();
+        Long total = postQueryResults.getTotal();
+        return new PageImpl(posts, pageable , total);
+     }
+
+
+
+
+
+###  ```- 페이징 동적쿼리(작성자, 제목, 내용으로찾기)```
+
+
+    public Page<Post> dynamicPagePostV3(String author, String title, String content, Pageable pageable){
+        QueryResults<Post> postQueryResults = queryFactory
+                .selectFrom(post)
+                .where( eqAuthor(author)
+                        .or(contatingTitle(title)
+                                .or(contatingContent(content)))
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        List<Post> posts = postQueryResults.getResults();
+        long total = postQueryResults.getTotal();
+        return new PageImpl(posts, pageable , total);
+    }
+
+
+
+
+
 
 
 -----------------------
