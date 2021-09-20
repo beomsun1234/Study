@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    include: db,file
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
