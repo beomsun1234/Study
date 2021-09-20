@@ -44,6 +44,11 @@ public class BoardController {
     public BoardResponseDto findOne(@PathVariable Long id){
         return BoardResponseDto.builder().board(boardQueryRepository.findById(id)).build();
     }
+    @GetMapping("v2/post/{id}")
+    public ResponseEntity<BoardResponseDto> findOneV2(@PathVariable Long id){
+        return boardService.findOne(id);
+    }
+    //----------
     @Transactional
     @PutMapping("/v1/post/{id}")
     public Long updateBoard(@PathVariable Long id,BoardRequestDto boardRequestDto) throws IOException {
@@ -55,7 +60,7 @@ public class BoardController {
         board.update(boardRequestDto.getTitle(), boardRequestDto.getContent());
         return board.getId();
     }
-
+    //------------
     @Transactional
     @DeleteMapping("/v1/post/{id}")
     public ResponseEntity<String> deleteBoard(@PathVariable Long id){
