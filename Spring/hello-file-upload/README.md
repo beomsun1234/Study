@@ -6,7 +6,11 @@
 
 
 
-- 엔티티(Board, File)
+<br>
+
+
+### 엔티티(Board, File)
+
 
 
 ![파일업로드엔티티관계](https://user-images.githubusercontent.com/68090443/133971182-4d0957b9-622d-4412-b0ee-9ab838a99353.PNG)
