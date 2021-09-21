@@ -4,13 +4,12 @@
 
 - /images/** 를 통해 해당 이미지 불러옴
 
-- member추가
 
 <br>
 
 
-### 엔티티(Board, File)
+### 엔티티(Member, Board, File)
 
 
 
-![파일업로드엔티티관계](https://user-images.githubusercontent.com/68090443/133971182-4d0957b9-622d-4412-b0ee-9ab838a99353.PNG)
+![fileupload2](https://user-images.githubusercontent.com/68090443/134145183-03d1c361-ac2b-4669-9653-fa6602f2ec1b.PNG)
