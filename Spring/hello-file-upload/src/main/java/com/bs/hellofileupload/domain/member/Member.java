@@ -2,6 +2,7 @@ package com.bs.hellofileupload.domain.member;
 
 import com.bs.hellofileupload.domain.BaseTimeEntity;
 import com.bs.hellofileupload.domain.board.Board;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Board> boards = new ArrayList<>();
 
+    @Builder
     public Member(String email, String name){
         this.email = email;
         this.name = name;

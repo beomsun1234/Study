@@ -1,4 +1,4 @@
-package com.bs.hellofileupload;
+package com.bs.hellofileupload.controller;
 import com.bs.hellofileupload.domain.board.Board;
 import com.bs.hellofileupload.domain.board.repository.BoardQueryRepository;
 import com.bs.hellofileupload.domain.board.repository.BoardRepository;

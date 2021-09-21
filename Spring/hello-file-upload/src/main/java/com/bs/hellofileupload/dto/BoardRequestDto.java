@@ -16,15 +16,13 @@ public class BoardRequestDto {
     private Long memberId;
     private String title;
     private String content;
-    private String author;
     private MultipartFile file; //이미지저장
 
     @Builder
-    public BoardRequestDto(Long memberId, String title,String content, String author, MultipartFile file){
+    public BoardRequestDto(Long memberId, String title,String content, MultipartFile file){
         this.memberId = memberId;
         this.title = title;
         this.content = content;
-        this.author = author;
         this.file = file;
     }
 
@@ -32,7 +30,7 @@ public class BoardRequestDto {
         return Board.builder()
                 .title(title)
                 .content(content)
-                .author(author)
+                .author(member.getName())
                 .member(member)
                 .build();
     }
