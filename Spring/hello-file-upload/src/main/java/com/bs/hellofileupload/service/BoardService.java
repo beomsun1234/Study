@@ -3,6 +3,8 @@ package com.bs.hellofileupload.service;
 import com.bs.hellofileupload.domain.board.Board;
 import com.bs.hellofileupload.domain.board.repository.BoardQueryRepository;
 import com.bs.hellofileupload.domain.board.repository.BoardRepository;
+import com.bs.hellofileupload.domain.member.Member;
+import com.bs.hellofileupload.domain.member.repository.MemberRepository;
 import com.bs.hellofileupload.dto.BoardRequestDto;
 import com.bs.hellofileupload.dto.BoardResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +26,11 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final FileService fileService;
     private final BoardQueryRepository boardQueryRepository;
-
+    private final MemberRepository memberRepository;
     @Transactional
     public Long save(BoardRequestDto boardRequestDto) throws IOException {
-        Board savedBoard = boardRepository.save(boardRequestDto.toEntity());
+        Member member = memberRepository.findById(boardRequestDto.getMemberId()).orElseThrow(() -> new IllegalArgumentException("맴버가 없습니다"));
+        Board savedBoard = boardRepository.save(boardRequestDto.toEntity(member));
         if(boardRequestDto.getFile() !=null){
             Long saveFilId = fileService.save(boardRequestDto.getFile(), savedBoard);
             log.info("파일저장성공={}",saveFilId);

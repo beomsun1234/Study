@@ -1,13 +1,13 @@
 package com.bs.hellofileupload.domain.member;
 
 import com.bs.hellofileupload.domain.BaseTimeEntity;
+import com.bs.hellofileupload.domain.board.Board;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -20,4 +20,12 @@ public class Member extends BaseTimeEntity {
     private String email;
 
     private String name;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Board> boards = new ArrayList<>();
+
+    public Member(String email, String name){
+        this.email = email;
+        this.name = name;
+    }
 }

@@ -11,7 +11,7 @@ import org.springframework.jca.cci.object.SimpleRecordOperation;
 @NoArgsConstructor
 public class BoardResponseDto {
     private Long boardId;
-
+    private Long memberId;
     private String title;
     private String content;
     private String author;
@@ -21,6 +21,7 @@ public class BoardResponseDto {
 
     @Builder
     public BoardResponseDto(Board board){
+        this.memberId = board.getMember().getId();
         this.boardId = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
