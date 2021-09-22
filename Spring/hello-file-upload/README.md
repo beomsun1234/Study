@@ -27,12 +27,16 @@
 
 
 
+![boardsave](https://user-images.githubusercontent.com/68090443/134338231-568a36b6-35fe-400f-b594-4533a4baa01b.PNG)
+
+
 
 
 - find all
 
 
 
+![findall](https://user-images.githubusercontent.com/68090443/134338217-578b83fd-eda9-458d-b620-05a4f5c91ee1.PNG)
 
 
 
