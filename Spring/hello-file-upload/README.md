@@ -20,3 +20,20 @@
 
 
 ![swagger2](https://user-images.githubusercontent.com/68090443/134337240-284b8e16-14df-4a7c-9079-2b91e84209e1.PNG)
+
+
+
+- board save
+
+
+
+
+
+- find all
+
+
+
+
+
+
+
