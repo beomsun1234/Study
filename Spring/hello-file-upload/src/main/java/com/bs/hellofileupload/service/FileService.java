@@ -1,20 +1,16 @@
 package com.bs.hellofileupload.service;
-
 import com.bs.hellofileupload.domain.board.Board;
 import com.bs.hellofileupload.domain.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j

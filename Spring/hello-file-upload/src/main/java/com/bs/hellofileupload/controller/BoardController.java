@@ -1,7 +1,6 @@
 package com.bs.hellofileupload.controller;
 import com.bs.hellofileupload.domain.board.Board;
 import com.bs.hellofileupload.domain.board.repository.BoardQueryRepository;
-import com.bs.hellofileupload.domain.board.repository.BoardRepository;
 import com.bs.hellofileupload.dto.BoardRequestDto;
 import com.bs.hellofileupload.dto.BoardResponseDto;
 import com.bs.hellofileupload.service.BoardService;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;

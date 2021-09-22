@@ -1,15 +1,12 @@
 package com.bs.hellofileupload.domain.board;
-
-
 import com.bs.hellofileupload.domain.BaseTimeEntity;
 import com.bs.hellofileupload.domain.file.File;
 import com.bs.hellofileupload.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
 
 @Entity
 @Getter

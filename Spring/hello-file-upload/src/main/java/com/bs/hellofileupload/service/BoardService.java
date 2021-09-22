@@ -1,5 +1,4 @@
 package com.bs.hellofileupload.service;
-
 import com.bs.hellofileupload.domain.board.Board;
 import com.bs.hellofileupload.domain.board.repository.BoardQueryRepository;
 import com.bs.hellofileupload.domain.board.repository.BoardRepository;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;

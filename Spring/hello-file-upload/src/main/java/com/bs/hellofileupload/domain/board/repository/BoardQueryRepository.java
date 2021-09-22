@@ -1,13 +1,9 @@
 package com.bs.hellofileupload.domain.board.repository;
 import static com.bs.hellofileupload.domain.board.QBoard.board;
-
 import com.bs.hellofileupload.domain.board.Board;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.TypeCache;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @RequiredArgsConstructor
