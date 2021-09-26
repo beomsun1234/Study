@@ -1,5 +1,4 @@
 package com.bs.hellofileupload.controller;
-
 import com.bs.hellofileupload.domain.member.Member;
 import com.bs.hellofileupload.domain.member.repository.MemberRepository;
 import com.bs.hellofileupload.dto.MemberInfoDto;
@@ -29,6 +28,13 @@ public class MemberController {
     public ResponseEntity<MemberInfoDto> findOneById(@PathVariable Long id){
         Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없습니다!"));
         return new ResponseEntity<>(MemberInfoDto.builder().entity(member).build(), HttpStatus.OK);
+    }
+
+    @Transactional
+    @DeleteMapping("v1/membre/{id}")
+    public ResponseEntity deleteMember(@PathVariable Long id){
+        memberRepository.deleteById(id);
+        return new ResponseEntity("delete success",HttpStatus.OK);
     }
 
 }
