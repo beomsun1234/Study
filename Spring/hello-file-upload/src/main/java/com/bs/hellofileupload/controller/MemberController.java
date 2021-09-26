@@ -36,5 +36,4 @@ public class MemberController {
         memberRepository.deleteById(id);
         return new ResponseEntity("delete success",HttpStatus.OK);
     }
-
 }
