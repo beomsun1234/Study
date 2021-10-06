@@ -382,7 +382,7 @@ Intellij에서 QueryDSL를 사용할 때 QClass가 실제 존재함에도 불구
 
 ---
    
-### (TIL)[https://github.com/beomsun1234/TIL/tree/main/Spring-Data/Querydsl]
+### - [TIL](https://github.com/beomsun1234/TIL/tree/main/Spring-Data/Querydsl)
    
    
 ---
