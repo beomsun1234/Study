@@ -380,6 +380,15 @@ Intellij에서 QueryDSL를 사용할 때 QClass가 실제 존재함에도 불구
 이와 같은 방법으로 설정하니 오류없이 잘 돌아갔다.
 
 
+---
+   
+### - [TIL](https://github.com/beomsun1234/TIL/tree/main/Spring-Data/Querydsl)
+   
+   
+---
+   
 참고 사이트
 - https://lteawoo.tistory.com/25
 - https://javachoi.tistory.com/397
+   
+
