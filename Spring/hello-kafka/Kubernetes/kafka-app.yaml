@@ -1,0 +1,48 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-app
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: kafka-app
+  type: LoadBalancer
+
+---
+
+## Deployment
+
+apiVersion: apps/v1
+
+
+kind: Deployment
+
+metadata:
+  name: kafka-app
+
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kafka-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: kafka-app
+
+    spec:
+      containers:
+        - name: kafka-app
+          image: beomsun22/kafka-app
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always

@@ -12,6 +12,6 @@ public class HomeController {
     }
     @GetMapping("/version")
     public String updateTest(){
-        return "version";
+        return "version-2";
     }
 }
