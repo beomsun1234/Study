@@ -3,7 +3,7 @@
 
 
 
-### step1
+### step
 
 application-db.yml, application-kafka.yml 작성 해준다.
 
@@ -72,4 +72,4 @@ app 배포
 
 GET localhost:8080/message?message="hello"
 
-[사진]
+![k8s](https://user-images.githubusercontent.com/68090443/147917951-f684eb27-9a66-4300-bff4-4f496a9cafb3.PNG)
