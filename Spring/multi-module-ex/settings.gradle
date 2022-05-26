@@ -1,0 +1,5 @@
+rootProject.name = 'multi-module-ex'
+include 'module-core'
+include 'module-service'
+include 'module-batch'
+
