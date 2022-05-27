@@ -269,6 +269,12 @@ paths는 path 조건에 해당하는 API를 찾아서 문서화합니다.
 localhost:80 으로 접속하면 기존에 어플레케이션을 구동했을때 동일하게 보입니다!!
  
  
+### swagger ui에 여러개의 OpenAPI Spec 실행방법
+
+          docker run -d -p 80:8080 -e URLS_PRIMARY_NAME=Swagger -e URLS="[{ url: 'docs/api.json', name: 'Swagger' }, { url: 'docs/api2.json', name: 'Swagger2' }]" -v C:\Users\uuhu\park\doc:/usr/share/nginx/html/docs/ swaggerapi/swagger-ui
+ 
+ 
+ 
 ### 트러블 슈팅
 
 #### docker오류
